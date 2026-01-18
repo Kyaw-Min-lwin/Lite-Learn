@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Lecture</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .btn {
+            background: #00897b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .loader {
+            display: none;
+            color: #00897b;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload a Heavy Lecture</h1>
+    <p>We will compress it and generate notes for you.</p>
+
+    <form method="post" enctype="multipart/form-data"
+        onsubmit="document.getElementById('loader').style.display='block'">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Process Video</button>
+    </form>
+
+    <div id="loader" class="loader">
+        Processing... This might take a minute. Please wait.
+    </div>
+</body>
+
+</html>

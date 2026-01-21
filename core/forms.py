@@ -10,7 +10,7 @@ class LectureUploadForm(forms.ModelForm):
             "title": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Lecture Title (Optional for YouTube)",
+                    # "placeholder": "Lecture Title (Optional for YouTube)",
                 }
             ),
             "original_video": forms.FileInput(attrs={"class": "form-control"}),

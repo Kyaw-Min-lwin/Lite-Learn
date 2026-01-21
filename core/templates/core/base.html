@@ -7,29 +7,55 @@
     <title>LiteLearn Myanmar</title>
     <style>
         :root {
-            --primary: #059669;
-            /* Emerald 600 */
+            /* Refined Palette - Emerald & Slate */
+            --primary: #10b981;
+            /* Brighter Emerald */
             --primary-dark: #047857;
+            /* Deep Green */
+            --primary-light: #d1fae5;
+            /* Soft Green */
+            --accent: #f59e0b;
+            /* Amber for Highlights */
+
             --bg: #f8fafc;
             --surface: #ffffff;
-            --text: #334155;
-            --text-light: #64748b;
+            --text-main: #0f172a;
+            /* Deep Navy/Black */
+            --text-muted: #64748b;
+            /* Slate Grey */
             --border: #e2e8f0;
+
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
 
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            /* CSS-Only Dot Pattern for texture - 0kb download */
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: var(--text-main);
             margin: 0;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Minimal Navbar */
+        /* Glassmorphism Navbar */
         nav {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
-            padding: 12px 20px;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 800px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,36 +63,66 @@
 
         .brand {
             font-weight: 800;
-            color: var(--primary);
+            color: var(--primary-dark);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.85em;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 40px 20px;
         }
 
-        /* Unified Card Style */
+        /* Card Design System */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
             margin-bottom: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Subtle hover effect for interactivity */
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         /* Typography */
         h1,
         h2,
         h3 {
-            color: #1e293b;
+            color: var(--text-main);
             margin-top: 0;
+            letter-spacing: -0.025em;
+            /* Tighter headings look more modern */
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
         .text-center {
@@ -74,159 +130,136 @@
         }
 
         .text-muted {
-            color: var(--text-light);
-            font-size: 0.9em;
+            color: var(--text-muted);
+            font-size: 0.95em;
         }
 
-        /* Buttons */
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        /* Buttons - High Tactility */
         .btn {
             background: var(--primary);
             color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: background 0.2s;
+            transition: all 0.2s;
             text-decoration: none;
             display: inline-block;
             text-align: center;
             box-sizing: border-box;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
         }
 
         .btn:hover {
             background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-outline {
-            background: transparent;
+            background: white;
             border: 2px solid var(--border);
-            color: var(--text);
+            color: var(--text-muted);
+            box-shadow: none;
         }
 
-        /* Form inputs */
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            background: var(--primary-light);
+        }
+
+        .btn-outline.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        /* Form Controls */
         input[type="text"],
         input[type="url"],
         input[type="file"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
             font-size: 1rem;
+            transition: border-color 0.2s;
+            outline: none;
         }
 
-        /* --- LECTURE DETAIL STYLES --- */
-
-        /* 1. The Impact Card (Green Gradient) */
-        .impact-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        input:focus {
+            border-color: var(--primary);
+            background: #fff;
         }
 
-        .impact-grid {
+        /* Utility Helpers */
+        .flex-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            text-align: center;
+            gap: 12px;
         }
 
-        .stat-val {
-            font-size: 1.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        .arrow {
-            font-size: 1.5rem;
-            opacity: 0.5;
-            color: white;
-        }
-
-        /* 2. Transcript Box */
-        .transcript-box {
-            background: #f1f5f9;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            max-height: 400px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            /* Preserves formatting */
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* 3. Audio Player */
-        audio {
-            width: 100%;
-            height: 45px;
-            margin-top: 10px;
-            border-radius: 8px;
-        }
-
-        /* 4. Section Headers */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        /* Tags */
-        .tag {
-            display: inline-block;
-            background: #d1fae5;
-            color: var(--primary-dark);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            vertical-align: middle;
-            margin-left: 8px;
-        }
-
-        /* Loader */
-        .loader {
-            display: none;
-            text-align: center;
-            padding: 40px;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* Utility */
         .hidden {
             display: none;
         }
 
-        .flex-row {
-            display: flex;
-            gap: 10px;
+        /* Markdown / AI Summary Styling */
+        .ai-content {
+            font-size: 1.05rem;
+            color: var(--text-main);
+        }
+
+        .ai-content strong {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .ai-content ul {
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .ai-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Custom Scrollbar for Transcript */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
         }
     </style>
 </head>
 
 <body>
     <nav>
-        <a href="/" class="brand">
-            <span style="font-size:1.4em;">⚡</span> LiteLearn <span
-                style="font-weight:normal; color:#94a3b8; font-size:0.8em; margin-left:5px;">MM</span>
-        </a>
+        <div class="nav-content">
+            <a href="/" class="brand">
+                ⚡ LiteLearn <span>MM</span>
+                </a>
+            <!-- Optional: Add user profile icon here later -->
+            </div>
     </nav>
 
     <div class="container">

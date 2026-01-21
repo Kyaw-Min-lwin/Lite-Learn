@@ -1,52 +1,90 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="text-center" style="margin-bottom: 40px;">
-    <h1>Low-Bandwidth Learning</h1>
-    <p class="text-muted">Convert heavy lectures into offline-ready audio & notes.</p>
+<div class="text-center" style="margin-bottom: 48px;">
+    <h1 style="margin-bottom: 8px;">Low-Bandwidth Learning</h1>
+    <p class="text-muted" style="max-width: 500px; margin: 0 auto;">
+        Upload heavy lectures or paste YouTube links. We compress them into bite-sized audio and study guides.
+    </p>
 </div>
 
-<div class="card">
+<div class="card" id="main-card">
     <!-- Tabs -->
-    <div class="flex-row" style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px;">
-        <button type="button" onclick="switchTab('youtube')" id="btn-yt" class="btn btn-outline" style="flex:1;">📺
-            YouTube Link</button>
-        <button type="button" onclick="switchTab('file')" id="btn-file" class="btn btn-outline" style="flex:1;">📁 File
-            Upload</button>
+    <div class="flex-row" style="margin-bottom: 24px;">
+        <button type="button" onclick="switchTab('youtube')" id="btn-yt" class="btn btn-outline active">
+            📺 YouTube Link
+        </button>
+        <button type="button" onclick="switchTab('file')" id="btn-file" class="btn btn-outline">
+            📁 File Upload
+        </button>
     </div>
 
     <form method="post" enctype="multipart/form-data" onsubmit="showLoader()">
         {% csrf_token %}
 
         <!-- Title Input -->
-        <div style="margin-bottom: 20px;">
-            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Lecture Title <span class="text-muted"
-                    style="font-weight:normal;">(Optional)</span></label>
+        <div style="margin-bottom: 24px;">
+            <label style="font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 8px; color: var(--text-muted);">
+                LABEL YOUR CONTENT
+            </label>
             {{ form.title }}
         </div>
 
         <!-- YouTube Section -->
         <div id="youtube-section">
-            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Paste YouTube URL</label>
+            <label style="font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 8px; color: var(--text-muted);">
+                PASTE URL
+            </label>
             {{ form.youtube_url }}
-            <p class="text-muted">We extract audio directly to save data.</p>
+            <div
+                style="font-size: 0.85em; color: var(--primary-dark); background: var(--primary-light); padding: 8px 12px; border-radius: 6px; display: inline-block;">
+                ⚡ Tip: YouTube is faster because we don't need to upload a file first.
+            </div>
         </div>
-        
+
         <!-- File Section -->
         <div id="file-section" class="hidden">
-            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Upload Video File</label>
+            <label style="font-weight: 600; font-size: 0.9em; display: block; margin-bottom: 8px; color: var(--text-muted);">
+                SELECT FILE (MP4, MKV)
+            </label>
             {{ form.original_video }}
         </div>
-        
-        <button type="submit" class="btn" style="margin-top: 10px;">🚀 Process Content</button>
+
+        <div style="margin-top: 32px;">
+            <button type="submit" class="btn">🚀 Start Processing</button>
+        </div>
     </form>
 </div>
 
-<div id="loader" class="loader">
-    <div style="font-size: 2.5em; margin-bottom: 15px; animation: bounce 1s infinite;">⚙️</div>
-    <h3>Processing...</h3>
-    <p class="text-muted">This runs on your CPU. Large files may take a minute.</p>
-    </div>
+<!-- Refined Loader -->
+<div id="loader" style="display: none; text-align: center; padding-top: 40px;">
+    <div class="spinner"></div>
+    <h3 style="margin-top: 20px;">Crunching Data...</h3>
+    <p class="text-muted">Extracting audio & generating AI notes.</p>
+</div>
+<style>
+    /* CSS Spinner - GPU Accelerated */
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--border);
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
 <script>
     function switchTab(mode) {
         const ytSection = document.getElementById('youtube-section');
@@ -57,60 +95,30 @@
         if (mode === 'youtube') {
             ytSection.style.display = 'block';
             fileSection.style.display = 'none';
-
-            // Active State
-            btnYt.style.backgroundColor = '#d1fae5';
-            btnYt.style.borderColor = '#059669';
-            btnYt.style.color = '#047857';
-
-            // Inactive State
-            btnFile.style.backgroundColor = 'transparent';
-            btnFile.style.borderColor = '#e2e8f0';
-            btnFile.style.color = 'var(--text)';
-
+            btnYt.classList.add('active');
+            btnFile.classList.remove('active');
             document.querySelector('input[type="file"]').value = '';
         } else {
             ytSection.style.display = 'none';
             fileSection.style.display = 'block';
-
-            // Active State
-            btnFile.style.backgroundColor = '#d1fae5';
-            btnFile.style.borderColor = '#059669';
-            btnFile.style.color = '#047857';
-
-            // Inactive State
-            btnYt.style.backgroundColor = 'transparent';
-            btnYt.style.borderColor = '#e2e8f0';
-            btnYt.style.color = 'var(--text)';
-
+            btnFile.classList.add('active');
+            btnYt.classList.remove('active');
             document.querySelector('input[type="url"]').value = '';
         }
     }
 
     function showLoader() {
-        // Fade out the form
-        document.querySelector('.card').style.opacity = '0.4';
-        document.querySelector('.card').style.pointerEvents = 'none';
-
-        // Show loader
+        // Fade out card smoothly
+        const card = document.getElementById('main-card');
+        card.style.opacity = '0.5';
+        card.style.pointerEvents = 'none';
         document.getElementById('loader').style.display = 'block';
     }
 
-    // Init defaults
-    switchTab('youtube');
+        // Set default input placeholders via JS to keep HTML clean
+        window.onload = function () {
+            document.querySelector('input[name="title"]').placeholder = "e.g. Intro to Neural Networks";
+            document.querySelector('input[name="youtube_url"]').placeholder = "https://youtube.com/watch?v=...";
+        }
 </script>
-
-<style>
-    @keyframes bounce {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-10px);
-        }
-    }
-</style>
 {% endblock %}

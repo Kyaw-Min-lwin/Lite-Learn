@@ -1,213 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'core/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ lecture.title }} | LiteLearn</title>
-    <style>
-        :root {
-            --primary: #059669;
-            /* Emerald Green */
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #334155;
-        }
+{% block content %}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
+<!-- Header Navigation -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <a href="/upload/"
+        style="color: var(--text-muted); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+        ← <span style="border-bottom: 2px solid transparent;">Upload Another</span>
+    </a>
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    <a href="{% url 'download_pdf' lecture.pk %}" class="btn"
+        style="width: auto; padding: 8px 16px; font-size: 0.9em; background: var(--text-main);">
+        ⬇ Download PDF
+    </a>
+    </div>
 
-        /* Header */
-        .header {
-            margin-bottom: 30px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
-        }
+<!-- Title Section -->
+<div style="margin-bottom: 32px;">
+    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+        <span
+            style="background: var(--primary-light); color: var(--primary-dark); font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Success
+        </span>
+        <span style="color: var(--text-muted); font-size: 0.9em;">{{ lecture.created_at|date:"M d, Y" }}</span>
+    </div>
+    <h1 style="margin-bottom: 0;">{{ lecture.title }}</h1>
+</div>
 
-        .tag {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-
-        /* The Impact Card - Judges love this */
-        .impact-card {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .impact-grid {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-val {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            font-size: 0.85em;
-            opacity: 0.9;
-        }
-
-        .arrow {
-            font-size: 1.5em;
-            opacity: 0.5;
-        }
-
-        /* Sections */
-        .section-card {
-            background: var(--card);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            margin-top: 0;
-            color: #1e293b;
-            font-size: 1.25em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Audio Player */
-        audio {
-            width: 100%;
-            height: 40px;
-            margin-top: 10px;
-        }
-
-        /* Transcript */
-        .transcript-box {
-            height: 300px;
-            overflow-y: auto;
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            white-space: pre-wrap;
-            border: 1px solid #e2e8f0;
-        }
-
-        .btn-back {
-            display: inline-block;
-            margin-top: 20px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .ai-summary-content {
-            font-size: 1.05em;
-            color: #334155;
-        }
-
-        .ai-summary-content strong {
-            color: #b45309;
-            /* Matches your amber border color */
-            font-weight: 700;
-        }
-
-        .ai-summary-content ul {
-            margin-top: 10px;
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        .ai-summary-content li {
-            margin-bottom: 8px;
-            /* Spacing between bullet points */
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="header">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <a href="/upload/" class="btn-back">← Upload Another</a>
-                <a href="{% url 'download_pdf' lecture.pk %}"
-                    style="background: #059669; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9em;">
-                    ⬇ Download PDF Notes
-                </a>
-            </div>
-            <h1 style="margin-bottom: 5px;">{{ lecture.title }}</h1>
-            <span class="tag">Processed Successfully</span>
-        </div>
-
-        <!-- The "Money Shot" for the Judges -->
-        <div class="impact-card">
-            <div style="font-weight: bold; margin-bottom: 10px;">📉 Data Savings Report</div>
-            <div class="impact-grid">
-                <div class="stat-item">
-                    <div class="stat-val">{{ lecture.original_size_mb }} MB</div>
-                    <div class="stat-label">Original Video</div>
-                </div>
-                <div class="arrow">→</div>
-                <div class="stat-item">
-                    <div class="stat-val">{{ lecture.new_size_mb }} MB</div>
-                    <div class="stat-label">LiteLearn Optimized</div>
-                </div>
-                <div class="stat-item" style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 8px;">
-                    <div class="stat-val">{{ lecture.data_saved_percentage }}%</div>
-                    <div class="stat-label">Data Saved</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-card">
-            <h2>🎧 Low-Bandwidth Audio</h2>
-            <p style="font-size: 0.9em; color: #64748b;">Optimized at 32kbps mono (Radio Quality)</p>
-            {% if lecture.processed_audio %}
-            <audio controls>
-                <source src="{{ lecture.processed_audio.url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            {% else %}
-            <p>Audio processing failed.</p>
-            {% endif %}
-        </div>
-
-        <div class="section-card" style="border-left: 4px solid #f59e0b;">
-            <h2>⚡ AI Summary</h2>
-            <p>{{ lecture.summary | safe }}</p>
-        </div>
-
-        <div class="section-card">
-            <h2>📄 Full Transcript</h2>
-            <div class="transcript-box">
-                {{ lecture.transcript }}
-            </div>
+<!-- The "Money Shot" Impact Card - Modern Grid Layout -->
+<div
+    style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 16px; padding: 32px; color: white; margin-bottom: 32px; box-shadow: var(--shadow-lg);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+        <h3 style="color: white; margin: 0; opacity: 0.9; font-size: 1.1em;">📉 Bandwidth Savings Report</h3>
+        <div
+            style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">
+            LiteLearn Optimized
         </div>
     </div>
-</body>
 
-</html>
+    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; text-align: center;">
+        <!-- Original -->
+        <div style="text-align: left;">
+            <div style="font-size: 2em; font-weight: 800;">{{ lecture.original_size_mb }}<span
+                    style="font-size: 0.5em; opacity: 0.7;">MB</span></div>
+            <div style="font-size: 0.9em; opacity: 0.8;">Original Video</div>
+        </div>
+
+        <!-- Arrow Visual -->
+        <div style="opacity: 0.5; font-size: 2em;">→</div>
+
+        <!-- New Size -->
+        <div style="text-align: right;">
+            <div style="font-size: 2em; font-weight: 800; color: #fff;">{{ lecture.new_size_mb }}<span
+                    style="font-size: 0.5em; opacity: 0.7;">MB</span></div>
+            <div style="font-size: 0.9em; opacity: 0.8;">Audio & Text</div>
+        </div>
+    </div>
+
+    <div
+        style="margin-top: 24px; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.2em;">🎉</span>
+        <span style="font-size: 0.95em;">You saved <strong>{{ lecture.data_saved_percentage }}%</strong> of your mobile
+            data on this lecture.</span>
+    </div>
+    </div>
+
+<div class="card">
+    <h2 style="display: flex; align-items: center; gap: 10px;">
+        <span>🎧</span> Low-Bandwidth Audio
+    </h2>
+    <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+        {% if lecture.processed_audio %}
+        <audio controls style="width: 100%; height: 40px;">
+            <source src="{{ lecture.processed_audio.url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div style="margin-top: 8px; font-size: 0.85em; color: var(--text-muted); text-align: right;">
+            Format: MP3 Mono • 32kbps
+        </div>
+        {% else %}
+        <p class="text-muted">Audio processing failed.</p>
+        {% endif %}
+        </div>
+</div>
+
+<div class="card" style="border-left: 5px solid var(--accent);">
+    <h2 style="display: flex; align-items: center; gap: 10px;">
+        <span>⚡</span> AI Study Guide
+    </h2>
+    <div class="ai-content">
+        <!-- The SAFE filter is crucial here for your markdown -->
+        {{ lecture.summary | safe }}
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="display: flex; align-items: center; gap: 10px;">
+        <span>📄</span> Full Transcript
+    </h2>
+    <div class="custom-scroll"
+        style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border); height: 300px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 0.9em; color: var(--text-muted); line-height: 1.8;">
+        {{ lecture.transcript }}
+    </div>
+</div>
+
+{% endblock %}

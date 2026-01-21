@@ -1,47 +1,116 @@
-<!DOCTYPE html>
-<html>
+{% extends 'core/base.html' %}
 
-<head>
-    <title>Upload Lecture</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+{% block content %}
+<div class="text-center" style="margin-bottom: 40px;">
+    <h1>Low-Bandwidth Learning</h1>
+    <p class="text-muted">Convert heavy lectures into offline-ready audio & notes.</p>
+</div>
 
-        .btn {
-            background: #00897b;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .loader {
-            display: none;
-            color: #00897b;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Upload a Heavy Lecture</h1>
-    <p>We will compress it and generate notes for you.</p>
-
-    <form method="post" enctype="multipart/form-data"
-        onsubmit="document.getElementById('loader').style.display='block'">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn">Process Video</button>
-    </form>
-
-    <div id="loader" class="loader">
-        Processing... This might take a minute. Please wait.
+<div class="card">
+    <!-- Tabs -->
+    <div class="flex-row" style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px;">
+        <button type="button" onclick="switchTab('youtube')" id="btn-yt" class="btn btn-outline" style="flex:1;">📺
+            YouTube Link</button>
+        <button type="button" onclick="switchTab('file')" id="btn-file" class="btn btn-outline" style="flex:1;">📁 File
+            Upload</button>
     </div>
-</body>
 
-</html>
+    <form method="post" enctype="multipart/form-data" onsubmit="showLoader()">
+        {% csrf_token %}
+
+        <!-- Title Input -->
+        <div style="margin-bottom: 20px;">
+            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Lecture Title <span class="text-muted"
+                    style="font-weight:normal;">(Optional)</span></label>
+            {{ form.title }}
+        </div>
+
+        <!-- YouTube Section -->
+        <div id="youtube-section">
+            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Paste YouTube URL</label>
+            {{ form.youtube_url }}
+            <p class="text-muted">We extract audio directly to save data.</p>
+        </div>
+        
+        <!-- File Section -->
+        <div id="file-section" class="hidden">
+            <label style="font-weight: 600; display: block; margin-bottom: 8px;">Upload Video File</label>
+            {{ form.original_video }}
+        </div>
+        
+        <button type="submit" class="btn" style="margin-top: 10px;">🚀 Process Content</button>
+    </form>
+</div>
+
+<div id="loader" class="loader">
+    <div style="font-size: 2.5em; margin-bottom: 15px; animation: bounce 1s infinite;">⚙️</div>
+    <h3>Processing...</h3>
+    <p class="text-muted">This runs on your CPU. Large files may take a minute.</p>
+    </div>
+<script>
+    function switchTab(mode) {
+        const ytSection = document.getElementById('youtube-section');
+        const fileSection = document.getElementById('file-section');
+        const btnYt = document.getElementById('btn-yt');
+        const btnFile = document.getElementById('btn-file');
+
+        if (mode === 'youtube') {
+            ytSection.style.display = 'block';
+            fileSection.style.display = 'none';
+
+            // Active State
+            btnYt.style.backgroundColor = '#d1fae5';
+            btnYt.style.borderColor = '#059669';
+            btnYt.style.color = '#047857';
+
+            // Inactive State
+            btnFile.style.backgroundColor = 'transparent';
+            btnFile.style.borderColor = '#e2e8f0';
+            btnFile.style.color = 'var(--text)';
+
+            document.querySelector('input[type="file"]').value = '';
+        } else {
+            ytSection.style.display = 'none';
+            fileSection.style.display = 'block';
+
+            // Active State
+            btnFile.style.backgroundColor = '#d1fae5';
+            btnFile.style.borderColor = '#059669';
+            btnFile.style.color = '#047857';
+
+            // Inactive State
+            btnYt.style.backgroundColor = 'transparent';
+            btnYt.style.borderColor = '#e2e8f0';
+            btnYt.style.color = 'var(--text)';
+
+            document.querySelector('input[type="url"]').value = '';
+        }
+    }
+
+    function showLoader() {
+        // Fade out the form
+        document.querySelector('.card').style.opacity = '0.4';
+        document.querySelector('.card').style.pointerEvents = 'none';
+
+        // Show loader
+        document.getElementById('loader').style.display = 'block';
+    }
+
+    // Init defaults
+    switchTab('youtube');
+</script>
+
+<style>
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+</style>
+{% endblock %}

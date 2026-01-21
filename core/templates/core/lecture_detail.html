@@ -124,6 +124,28 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        .ai-summary-content {
+            font-size: 1.05em;
+            color: #334155;
+        }
+
+        .ai-summary-content strong {
+            color: #b45309;
+            /* Matches your amber border color */
+            font-weight: 700;
+        }
+
+        .ai-summary-content ul {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .ai-summary-content li {
+            margin-bottom: 8px;
+            /* Spacing between bullet points */
+        }
     </style>
 </head>
 
@@ -136,7 +158,7 @@
                     style="background: #059669; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9em;">
                     ⬇ Download PDF Notes
                 </a>
-                </div>
+            </div>
             <h1 style="margin-bottom: 5px;">{{ lecture.title }}</h1>
             <span class="tag">Processed Successfully</span>
         </div>
@@ -176,7 +198,7 @@
 
         <div class="section-card" style="border-left: 4px solid #f59e0b;">
             <h2>⚡ AI Summary</h2>
-            <p>{{ lecture.summary|linebreaks }}</p>
+            <p>{{ lecture.summary | safe }}</p>
         </div>
 
         <div class="section-card">

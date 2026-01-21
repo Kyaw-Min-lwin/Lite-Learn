@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 from core import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('upload/', views.upload_lecture, name='upload_lecture'),
-    path('lecture/<int:pk>/', views.lecture_detail, name='lecture_detail'),
+    path("admin/", admin.site.urls),
+    path("upload/", views.upload_lecture, name="upload_lecture"),
+    path("lecture/<int:pk>/", views.lecture_detail, name="lecture_detail"),
+    path("lecture/<int:pk>/pdf/", views.download_pdf, name="download_pdf"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,9 +3,10 @@ import os
 
 
 class Lecture(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True)
+    youtube_url = models.URLField(blank=True, null=True)
     # The heavy original video
-    original_video = models.FileField(upload_to="videos/")
+    original_video = models.FileField(upload_to="videos/", blank=True, null=True)
 
     # The processed lightweight assets (initially blank)
     processed_audio = models.FileField(upload_to="audio/", blank=True, null=True)
@@ -19,9 +20,7 @@ class Lecture(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        # Calculate original size if video exists
         if self.original_video and not self.original_size_mb:
-            # Basic size estimation in MB
             try:
                 self.original_size_mb = round(
                     self.original_video.size / (1024 * 1024), 2

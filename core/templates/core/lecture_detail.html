@@ -130,7 +130,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <a href="/upload/" class="btn-back">← Upload Another</a>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="/upload/" class="btn-back">← Upload Another</a>
+                <a href="{% url 'download_pdf' lecture.pk %}"
+                    style="background: #059669; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9em;">
+                    ⬇ Download PDF Notes
+                </a>
+                </div>
             <h1 style="margin-bottom: 5px;">{{ lecture.title }}</h1>
             <span class="tag">Processed Successfully</span>
         </div>
@@ -179,7 +185,7 @@
                 {{ lecture.transcript }}
             </div>
         </div>
-        </div>
+    </div>
 </body>
 
 </html>

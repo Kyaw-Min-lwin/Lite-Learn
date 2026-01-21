@@ -1,12 +1,12 @@
-⚡ LiteLearn MM: Low-Bandwidth Learning Platform
+# ⚡ LiteLearn MM: Low-Bandwidth Learning Platform
 
 Bridging the digital divide in Myanmar by reducing educational data usage by 95%.
 
-📖 The Problem
+## 📖 The Problem
 
 In developing regions like Myanmar, internet access is often unstable, slow, or prohibitively expensive. Students cannot afford to stream 500MB video lectures, creating a massive knowledge gap compared to their peers in developed nations.
 
-💡 The Solution
+## 💡 The Solution
 
 LiteLearn is an offline-first educational tool that transforms heavy video content into lightweight, accessible assets.
 
@@ -18,13 +18,13 @@ Portability: Generates a downloadable PDF containing the summary and transcript 
 
 Impact: A 200MB video lecture is converted into a 5MB audio+text package.
 
-🛠 Tech Stack
+## 🛠 Tech Stack
 
 Backend: Django (Python 3.10+)
 
 Media Processing: FFmpeg, yt-dlp (YouTube extraction)
 
-AI Models:
+## AI Models:
 
 Transcription: openai-whisper (Base model)
 
@@ -34,7 +34,7 @@ PDF Generation: ReportLab
 
 Database: SQLite (Prototype) / PostgreSQL (Production)
 
-✨ Key Features
+## ✨ Key Features
 
 Dual Ingestion: Upload local video files OR paste YouTube links.
 
@@ -46,7 +46,7 @@ Data Saver Dashboard: Visualizes the exact MB saved for every lecture.
 
 Offline PDF: One-click download of all notes and transcripts.
 
-🚀 Installation & Setup
+## 🚀 Installation & Setup
 
 Prerequisites
 
@@ -64,11 +64,11 @@ git clone [https://github.com/yourusername/litelearn-mm.git](https://github.com/
 cd litelearn-mm
 python -m venv venv
 
-# Windows
+ Windows
 
 venv\Scripts\activate
 
-# Mac/Linux
+ Mac/Linux
 
 source venv/bin/activate
 
@@ -92,7 +92,7 @@ python manage.py runserver
 
 Visit http://127.0.0.1:8000/upload/ to start compressing.
 
-🧪 How It Works (Under the Hood)
+## 🧪 How It Works (Under the Hood)
 
 Ingestion: The app accepts a file or URL.
 
@@ -104,7 +104,7 @@ Reasoning: The transcript is sent to Gemini Flash with a prompt to "act as an ac
 
 Generation: ReportLab renders the text into a clean PDF layout for download.
 
-🔮 Future Roadmap
+## 🔮 Future Roadmap
 
 [ ] Burmese Language Support: Fine-tune Whisper for better local dialect recognition.
 
@@ -115,3 +115,4 @@ Generation: ReportLab renders the text into a clean PDF layout for download.
 👨‍💻 Author
 
 Built with ❤️ for Myanmar.
+

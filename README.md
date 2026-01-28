@@ -54,43 +54,7 @@ Python 3.8+ installed.
 
 FFmpeg installed and added to your System PATH.
 
-Windows: Download from gyan.dev, extract, and add bin folder to Environment Variables.
 
-Mac: brew install ffmpeg
-
-1. Clone & Env
-
-git clone [https://github.com/yourusername/litelearn-mm.git](https://github.com/yourusername/litelearn-mm.git)
-cd litelearn-mm
-python -m venv venv
-
- Windows
-
-venv\Scripts\activate
-
- Mac/Linux
-
-source venv/bin/activate
-
-2. Install Dependencies
-
-pip install django yt-dlp openai-whisper google-generativeai reportlab
-
-Note: This will also install PyTorch (required for Whisper).
-
-3. API Configuration
-
-Open core/media_processor.py and set your Gemini API Key:
-
-GEMINI_API_KEY = "YOUR_GOOGLE_AI_STUDIO_KEY"
-
-4. Database & Run
-
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-
-Visit http://127.0.0.1:8000/upload/ to start compressing.
 
 ## 🧪 How It Works (Under the Hood)
 
@@ -115,4 +79,5 @@ Generation: ReportLab renders the text into a clean PDF layout for download.
 👨‍💻 Author
 
 Built with ❤️ for Myanmar.
+
 
